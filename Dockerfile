@@ -4,18 +4,22 @@ FROM ubuntu:latest
 RUN apt-get update && apt-get install -y \
     python3.10 \
     python3-pip \
-    python3-dev \
-    build-essential \
+    python3-venv \
     git
 
-# Upgrade pip to the latest version
-RUN pip3 install --upgrade pip
+# Create and activate a virtual environment
+RUN python3 -m venv /opt/venv
 
-# Install PyYAML
-RUN pip3 install PyYAML
+# Upgrade pip and install PyYAML in the virtual environment
+RUN /opt/venv/bin/pip install --upgrade pip && \
+    /opt/venv/bin/pip install PyYAML
 
 # Copy the necessary files
 COPY feed.py /usr/bin/feed.py
 COPY entrypoint.sh /entrypoint.sh
 
+# Set the entry point
 ENTRYPOINT ["/entrypoint.sh"]
+
+# Ensure scripts use the virtual environment
+ENV PATH="/opt/venv/bin:$PATH"
