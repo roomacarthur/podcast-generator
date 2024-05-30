@@ -1,4 +1,4 @@
-name: "Podcast Generator"
+name: "Podcast Generator Test-1.0"
 author: "RooMacArthur"
 description: "Generate a podcast feed from a YAML file"
 runs:
